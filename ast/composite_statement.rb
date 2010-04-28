@@ -36,13 +36,21 @@ module AST
     # Compiles the composite statement to C code.
     #
     def compile_to_c
-      statements.collect { |s| s.compile_to_c }.join(";\n") + ";"
+      statements.collect { |s| s.compile_to_c }.join("\n")
     end
 
     # Compiles the composite statment to Ruby code.
     #
     def compile_to_ruby
       statements.collect { |s| s.compile_to_ruby }.join("\n")
+    end
+
+    # Collects the names of all variables in the substatements.
+    #
+    def collect_variables
+      variables = []
+      statements.collect { |s| variables += s.collect_variables }
+      variables.uniq
     end
   end
 end

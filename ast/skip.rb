@@ -33,5 +33,11 @@ module AST
     def compile_to_ruby
       ""
     end
+
+    # Returns an empty array.
+    #
+    def collect_variables
+      []
+    end
   end
 end

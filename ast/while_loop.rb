@@ -38,7 +38,7 @@ module AST
     # Compiles the while loop to C code.
     #
     def compile_to_c
-      "while (" + @condition.compile_to_c + ") {\n"
+      "while (" + @condition.compile_to_c + ") {\n" +
         indent_c(@body.compile_to_c) +
       "\n}\n"
     end
@@ -46,9 +46,15 @@ module AST
     # Compiles the while loop to Ruby code.
     #
     def compile_to_ruby
-      "while (" + @condition.compile_to_ruby + ") {\n"
+      "while " + @condition.compile_to_ruby + "\n" +
        indent_c(@body.compile_to_ruby) +
-      "\n}\n"
+      "\nend\n"
+    end
+
+    # Collects the names of all variables in the condition and the body.
+    #
+    def collect_variables
+      (@condition.collect_variables + @body.collect_variables).uniq
     end
   end
 end

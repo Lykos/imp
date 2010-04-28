@@ -35,13 +35,19 @@ module AST
     # Compiles the assignment to C code.
     #
     def compile_to_c
-      @variable.compile_to_c + " = " + @value.compile_to_c + ";\n"
+      @variable.compile_to_c + " = " + @value.compile_to_c + ";"
     end
 
     # Compiles the assignment to Ruby code.
     #
-    def compile_to_c
-      @variable.compile_to_ruby + " = " + @value.compile_to_ruby + "\n"
+    def compile_to_ruby
+      @variable.compile_to_ruby + " = " + @value.compile_to_ruby
+    end
+
+    # Collects the names of the left variable and all variables in the right expression.
+    #
+    def collect_variables
+      (@variable.collect_variables + @value.collect_variables).uniq
     end
   end
 end

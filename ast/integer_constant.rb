@@ -42,5 +42,11 @@ module AST
     def compile_to_ruby
       @value.to_s
     end
+
+    # Returns an empty array.
+    #
+    def collect_variables
+      []
+    end
   end
 end

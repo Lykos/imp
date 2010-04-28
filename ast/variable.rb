@@ -42,5 +42,11 @@ module AST
     def compile_to_ruby
       @name
     end
+
+    # Returns the name of the variable.
+    #
+    def collect_variables
+      [@name]
+    end
   end
 end

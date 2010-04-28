@@ -39,13 +39,13 @@ module AST
     # Compiles the binary expression to C code.
     #
     def compile_to_c
-      "(" + @left_expression.compile_to_c + operator_c_string + @right_expression.compile_to_c + ")"
+      "(" + @left_expression.compile_to_c + " " + operator_c_string + " " + @right_expression.compile_to_c + ")"
     end
 
     # Compiles the binary expression to Ruby code.
     #
     def compile_to_ruby
-      "(" + @left_expression.compile_to_ruby + operator_ruby_string + @right_expression.compile_to_ruby + ")"
+      "(" + @left_expression.compile_to_ruby + " " + operator_ruby_string + " " + @right_expression.compile_to_ruby + ")"
     end
 
     # Is by default just equal to the normal operator string.
@@ -58,6 +58,12 @@ module AST
     #
     def operator_ruby_string
       operator_string
+    end
+
+    # Collects the names of all variables in the subexpressions.
+    #
+    def collect_variables
+      (@left_expression.collect_variables + @right_expression.collect_variables).uniq
     end
   end
 end

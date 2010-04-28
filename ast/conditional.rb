@@ -57,5 +57,13 @@ module AST
         indent_c(@else_part.compile_to_ruby) +
         "\nend"
     end
+
+    # Collects the names of all variables in the conditional, the then part and
+    # the else_part.
+    #
+    def collect_variables
+      (@condition.collect_variables + @then_part.collect_variables +
+        @else_part.collect_variables).uniq
+    end
   end
 end

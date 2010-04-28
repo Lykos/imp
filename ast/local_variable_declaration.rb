@@ -46,5 +46,12 @@ module AST
     def compile_to_ruby
       raise "Compilation of local variable declarations to Ruby code is not supported yet."
     end
+
+    # Collects the names of all variables in the body except for the newly
+    # declared variable.
+    #
+    def collect_variables
+      @body.collect_variables.delete(@variable).uniq
+    end
   end
 end

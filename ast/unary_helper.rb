@@ -52,5 +52,11 @@ module AST
     def operator_ruby_string
       operator_string + " "
     end
+    
+    # Collects the names of all variables in the subexpression.
+    #
+    def collect_variables
+      @expression.collect_variables.uniq
+    end
   end
 end

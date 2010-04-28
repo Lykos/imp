@@ -1,0 +1,8 @@
+doc
+doc/*
+test/*~
+test/programs/*~
+interpreter/*~
+parser/*~
+ast/*~
+*~

@@ -1,9 +1,12 @@
+#!/usr/bin/env ruby
+
 require 'test/unit'
 require 'test/programs_helper'
 require 'interpreter/interpreter'
 
 class TestInterpreter < Test::Unit::TestCase
   include ProgramsHelper
+  include Interpreter
 
   def test_if_false
     interpreter = Interpreter.new(PROGRAMS["if"])

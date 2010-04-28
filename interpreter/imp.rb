@@ -15,7 +15,7 @@ else
     program += line
   end
 end
-interpreter = Interpreter.new(program)
+interpreter = Interpreter::Interpreter.new(program)
 interpreter.run
 
 puts interpreter.output_variables

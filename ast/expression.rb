@@ -1,6 +1,8 @@
 require 'ast/syntactic_unit'
 
-# Represents an expression in IMP.
-#
-class Expression < SyntacticUnit
+module AST
+  # Represents an expression in IMP.
+  #
+  class Expression < SyntacticUnit
+  end
 end

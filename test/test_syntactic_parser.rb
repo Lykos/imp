@@ -2,12 +2,14 @@
 
 require 'test/unit'
 require 'parser/syntactic_parser'
-require 'test/test_programs'
+require 'test/programs_helper'
 
 # Warning! This is no serious unit testing, only a few very simple tricks.
 
 class TestSyntacticParser < Test::Unit::TestCase
   include ProgramsHelper
+  include Parser
+  include AST
 
   def test_if
     ast = Conditional.new(

@@ -1,0 +1,3 @@
+while (a >= 2 and not ((b + (14 - 3)) <= c or c = b)) do
+  d := 1
+end

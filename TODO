@@ -1,0 +1,5 @@
+- Introduce own exception classes.
+- Support line numbers for better error messages.
+- Better nondeterminism for things like variables with the name of reserved
+  words.
+- procedures, abort, par, nondeterministic choice

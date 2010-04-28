@@ -16,6 +16,16 @@ else
   end
 end
 interpreter = Interpreter::Interpreter.new(program)
+
+i = 1
+while ARGV[i]
+  variable = ARGV[i]
+  value = ARGV[i+1].to_i
+  # TODO: Useful error messages.
+  interpreter.set_variable(variable, value)
+  i += 2
+end
+
 interpreter.run
 
 puts interpreter.output_variables

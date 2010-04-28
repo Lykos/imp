@@ -136,7 +136,7 @@ module Parser
     # Parses an indentifier.
     #
     def parse_identifier
-      raise "Reserved word #{t} used as a variable." if look_ahead =~ SPECIAL_WORD
+      raise "Reserved word #{look_ahead} used as a variable." if look_ahead =~ SPECIAL_WORD
       raise "Identifier expected. Got '#{look_ahead}'." unless look_ahead =~ IDENTIFIER
       next_token
     end

@@ -10,6 +10,12 @@ module AST
     def operator_string
       "or"
     end
+
+    # The C equivalent of 'or'.
+    #
+    def operator_c_string
+      "||"
+    end
     
     # Disjuncts two given booleans.
     #

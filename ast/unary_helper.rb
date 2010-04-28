@@ -28,5 +28,29 @@ module AST
     def interpret(context)
       evaluate_operator(@expression.interpret(context))
     end
+
+    # Compiles the unary expression to C code.
+    #
+    def compile_to_c
+      operator_c_string + "(" + @expression.compile_to_c + ")"
+    end
+
+    # Compiles the unary expression to Ruby code.
+    #
+    def compile_to_ruby
+      operator_ruby_string + "(" + @expression.compile_to_ruby + ")"
+    end
+
+    # Is by default just equal to the normal operator string plus a whitespace.
+    #
+    def operator_c_string
+      operator_string + " "
+    end
+
+    # Is by default just equal to the normal operator string a whitespace.
+    #
+    def operator_ruby_string
+      operator_string + " "
+    end
   end
 end

@@ -10,6 +10,8 @@ module AST
     def initialize(value)
       @value = value
     end
+
+    attr_reader :value
   
     # Returns true if the other object is also an integer constant and has the same value.
     #
@@ -28,7 +30,17 @@ module AST
     def interpret(context)
       @value
     end
-  
-    attr_reader :value
+
+    # Compiles the integer constant to C code.
+    #
+    def compile_to_c
+      @value.to_s
+    end
+
+    # Compiles the integer constant to Ruby code.
+    #
+    def compile_to_ruby
+      @value.to_s
+    end
   end
 end

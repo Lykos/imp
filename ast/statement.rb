@@ -5,7 +5,9 @@ module AST
   #
   class Statement < SyntacticUnit
   
-    INDENTATION = "  "
+    IMP_INDENTATION = "  "
+    C_INDENTATION = "\t"
+    RUBY_INDENTATION = "  "
   
     # Is the current statment a skip statement?
     #
@@ -13,10 +15,22 @@ module AST
       false
     end
   
-    # Indentates a given string.
+    # Indentates a given string for the imp language.
     #
     def indent(string)
-      string.collect { |s| INDENTATION + s }.join
+      string.collect { |s| IMP_INDENTATION + s }.join
+    end
+
+    # Indentates a given string for the imp language.
+    #
+    def indent_c(string)
+      string.collect { |s| C_INDENTATION + s }.join
+    end
+
+    # Indentates a given string for the imp language.
+    #
+    def indent_ruby(string)
+      string.collect { |s| RUBY_INDENTATION + s }.join
     end
   end
 end

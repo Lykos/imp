@@ -10,7 +10,13 @@ module AST
     def operator_string
       "and"
     end
-    
+
+    # The C equivalent of 'and'.
+    #
+    def operator_c_string
+      "&&"
+    end
+   
     # Conjuncts two given booleans.
     #
     def evaluate_operator(left, right)

@@ -30,5 +30,17 @@ module AST
     def interpret(context)
       context.get_variable(name)
     end
+
+    # Compiles the variable to C code.
+    #
+    def compile_to_c
+      @name
+    end
+
+    # Compiles the variable to Ruby code.
+    #
+    def compile_to_ruby
+      @name
+    end
   end
 end

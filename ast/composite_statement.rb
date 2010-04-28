@@ -32,5 +32,17 @@ module AST
     def interpret(context)
       statements.each { |s| s.interpret(context) }
     end
+
+    # Compiles the composite statement to C code.
+    #
+    def compile_to_c
+      statements.collect { |s| s.compile_to_c }.join(";\n") + ";"
+    end
+
+    # Compiles the composite statment to Ruby code.
+    #
+    def compile_to_ruby
+      statements.collect { |s| s.compile_to_ruby }.join("\n")
+    end
   end
 end

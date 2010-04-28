@@ -21,5 +21,17 @@ module AST
     #
     def interpret(context)
     end
+
+    # Compiles the skip statement to C code.
+    #
+    def compile_to_c
+      ""
+    end
+
+    # Compiles the skip statement to Ruby code.
+    #
+    def compile_to_ruby
+      ""
+    end
   end
 end

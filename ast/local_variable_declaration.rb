@@ -34,5 +34,17 @@ module AST
       @body.interpret(context)
       context.set_variable(@variable.name, old_value)
     end
+
+    # Compiles the local variable declaration to C code.
+    #
+    def compile_to_c
+      raise "Compilation of local variable declarations to C code is not supported yet."
+    end
+
+    # Compiles the local variable declaration to Ruby code.
+    #
+    def compile_to_ruby
+      raise "Compilation of local variable declarations to Ruby code is not supported yet."
+    end
   end
 end

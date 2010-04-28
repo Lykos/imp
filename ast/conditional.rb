@@ -37,5 +37,25 @@ module AST
         @else_part.interpret(context)
       end
     end
+
+    # Compiles the conditional to C code.
+    #
+    def compile_to_c
+      "if (" + @condition.compile_to_c + ") {\n" +
+        indent_c(@then_part.compile_to_c) +
+        "\n} else {\n" +
+        indent_c(@else_part.compile_to_c) +
+        "\n}"
+    end
+
+    # Compiles the conditional to Ruby code.
+    #
+    def compile_to_ruby
+      "if " + indent_c(@condition.compile_to_ruby) + "\n" +
+        indent_ruby(@then_part.compile_to_ruby) +
+        "\nelse\n" +
+        indent_c(@else_part.compile_to_ruby) +
+        "\nend"
+    end
   end
 end

@@ -5,5 +5,9 @@
 - procedures, abort, par, nondeterministic choice.
 - Useful error messages for command line arguments as initial values of variables.
 - Compile to C.
+- Compile to Ruby.
 - Debugger.
 - Refactor the whole parser.
+- More tests for the method missing trick.
+- Maybe still refactor the AST for the visitor pattern...
+- Write tests for the compilers.

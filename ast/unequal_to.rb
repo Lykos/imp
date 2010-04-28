@@ -11,6 +11,18 @@ module AST
       "#"
     end
   
+    # The C equivalent of '#'.
+    #
+    def operator_c_string
+      "!="
+    end
+
+    # The Ruby equivalent of '#'.
+    #
+    def operator_c_string
+      "!="
+    end
+
     # Is the left operator unequal to the right one?
     #
     def evaluate_operator(left, right)

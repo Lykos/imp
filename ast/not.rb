@@ -12,6 +12,12 @@ module AST
     def operator_string
       "not"
     end
+
+    # The C equivalent of 'not'.
+    #
+    def operator_c_string
+      "!"
+    end
   
     # Negates a given boolean.
     #

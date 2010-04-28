@@ -31,5 +31,17 @@ module AST
     def interpret(context)
       context.set_variable(@variable.name, @value.interpret(context))
     end
+
+    # Compiles the assignment to C code.
+    #
+    def compile_to_c
+      @variable.compile_to_c + " = " + @value.compile_to_c + ";\n"
+    end
+
+    # Compiles the assignment to Ruby code.
+    #
+    def compile_to_c
+      @variable.compile_to_ruby + " = " + @value.compile_to_ruby + "\n"
+    end
   end
 end

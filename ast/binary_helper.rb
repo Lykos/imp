@@ -35,5 +35,29 @@ module AST
     def interpret(context)
       evaluate_operator(@left_expression.interpret(context), @right_expression.interpret(context))
     end
+
+    # Compiles the binary expression to C code.
+    #
+    def compile_to_c
+      "(" + @left_expression.compile_to_c + operator_c_string + @right_expression.compile_to_c + ")"
+    end
+
+    # Compiles the binary expression to Ruby code.
+    #
+    def compile_to_ruby
+      "(" + @left_expression.compile_to_ruby + operator_ruby_string + @right_expression.compile_to_ruby + ")"
+    end
+
+    # Is by default just equal to the normal operator string.
+    #
+    def operator_c_string
+      operator_string
+    end
+
+    # Is by default just equal to the normal operator string.
+    #
+    def operator_ruby_string
+      operator_string
+    end
   end
 end

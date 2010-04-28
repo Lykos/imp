@@ -34,5 +34,21 @@ module AST
         @body.interpret(context)
       end
     end
+
+    # Compiles the while loop to C code.
+    #
+    def compile_to_c
+      "while (" + @condition.compile_to_c + ") {\n"
+        indent_c(@body.compile_to_c) +
+      "\n}\n"
+    end
+
+    # Compiles the while loop to Ruby code.
+    #
+    def compile_to_ruby
+      "while (" + @condition.compile_to_ruby + ") {\n"
+       indent_c(@body.compile_to_ruby) +
+      "\n}\n"
+    end
   end
 end

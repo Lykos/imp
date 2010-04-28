@@ -4,3 +4,5 @@
   words.
 - procedures, abort, par, nondeterministic choice.
 - Useful error messages for command line arguments as initial values of variables.
+- Compile to C.
+- Debugger.

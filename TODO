@@ -6,3 +6,4 @@
 - Useful error messages for command line arguments as initial values of variables.
 - Compile to C.
 - Debugger.
+- Refactor the whole parser.

@@ -31,7 +31,7 @@ module Parser
       constant = token.upcase
       constant += "_K" unless Syntax.const_defined?(constant)
       super(name) unless Syntax.const_defined?(constant)
-      raise "'#{string_name}' expected. Got '#{look_ahead}'." unless look_ahead =~ Syntax.const_get(constant)
+      raise "'#{token}' expected. Got '#{look_ahead}'." unless look_ahead =~ Syntax.const_get(constant)
       next_token
     end
   end

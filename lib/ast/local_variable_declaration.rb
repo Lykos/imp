@@ -51,7 +51,9 @@ module AST
     # declared variable.
     #
     def collect_variables
-      @body.collect_variables.delete(@variable).uniq
+      variables = @body.collect_variables.uniq
+      variables.delete(@variable)
+      variables
     end
   end
 end

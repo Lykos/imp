@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 
+$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+$:.unshift File.dirname(__FILE__)
+
 require 'test/unit'
-require 'test/programs_helper'
+require 'programs_helper'
 require 'interpreter/interpreter'
 
-class TestInterpreter < Test::Unit::TestCase
+class InterpreterTest < Test::Unit::TestCase
   include ProgramsHelper
   include Interpreter
 

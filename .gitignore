@@ -1,8 +1,8 @@
+nbproject
 doc
-doc/*
 test/*~
 test/programs/*~
-interpreter/*~
-parser/*~
-ast/*~
+lib/interpreter/*~
+lib/parser/*~
+lib/ast/*~
 *~

@@ -4,8 +4,9 @@ module Parser
   # Sets up a few constants that describe the syntax.
   #
   module Syntax
-    # _K stands for keyword and is necessary because else it would be a ruby keyword.
-  
+    # _K stands for keyword and is necessary because else it would be a Ruby keyword.
+
+    TRUE_K = /true/
     LESS_OR_EQUAL_THAN = /<=/
     GREATER_OR_EQUAL_THAN = />=/
     LESS_THAN = /</
@@ -47,7 +48,9 @@ module Parser
     UNTIL_K = /until/
     VAR = /var/
     IN_K = /in/
-    KEYWORD = Regexp.union( IF_K, THEN_K, ELSE_K, END_K, WHILE_K, DO_K, REPEAT, UNTIL_K, VAR, IN_K )
+    FOR_K = /for/
+    KEYWORD = Regexp.union( IF_K, THEN_K, ELSE_K, END_K, WHILE_K, DO_K, REPEAT,
+      UNTIL_K, VAR, IN_K, FOR_K )
   
     SPECIAL_WORD = Regexp.union( KEYWORD, SKIP )
   
@@ -55,8 +58,8 @@ module Parser
   
     IDENTIFIER = /[A-Za-z]+/
   
-    TOKEN = Regexp.union( BINARY_COMPARATION_OPERATOR, BINARY_BOOLEAN_OPERATOR,
-      BINARY_ARITHMETIC_OPERATOR, NOT_K, PARENTHESE, ASSIGNMENT,
-      SEMICOLON, SKIP, NUMERAL, IDENTIFIER, KEYWORD )
+    TOKEN = Regexp.union( TRUE_K, BINARY_COMPARATION_OPERATOR,
+      BINARY_BOOLEAN_OPERATOR, BINARY_ARITHMETIC_OPERATOR, NOT_K, PARENTHESE,
+      ASSIGNMENT, SEMICOLON, SKIP, NUMERAL, IDENTIFIER, KEYWORD )
   end
 end

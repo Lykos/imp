@@ -111,9 +111,6 @@ module Parser
         parse_until
         condition = parse_boolean_expression
         AST::CompositeStatement.new([body, AST::WhileLoop.new(AST::Not.new(condition), body)])
-      elsif look_ahead =~ SKIP
-        parse_skip
-        AST::Skip.new
       elsif look_ahead =~ VAR
         parse_var
         variable = AST::Variable.new(parse_identifier)
@@ -123,6 +120,27 @@ module Parser
         body = parse_statement
         parse_end
         AST::LocalVariableDeclaration.new(variable, value, body)
+      elsif look_ahead =~ FOR_K
+        # TODO: Check side conditions!
+        parse_for
+        variable = AST::Variable.new(parse_identifier)
+        parse_assignment
+        initial = parse_arithmetic_expression
+        parse_to
+        exit = parse_arithmetic_expression
+        parse_do
+        body = parse_statement
+        parse_end
+        exit_variable = Variable.new("y")
+        step = AST::Assignment.new(variable, variable + IntegerConstant.new(1))
+        loop_body = CompositeStatement.new([body, step])
+        loop_condition = LessOrEqual.new(variable, exit_variable)
+        loop = AST::WhileLoop.new(loop_condition, loop_body)
+        local_scope = AST::LocalVariableDeclaration.new(exit_variable, exit)
+        AST::CompositeStatement.new([initial, local_scope])
+      elsif look_ahead =~ SKIP
+        parse_skip
+        AST::Skip.new
       else
         raise "#{t} is no special word."
       end
@@ -150,6 +168,8 @@ module Parser
     def parse_boolean_expression
       if look_ahead =~ NOT_K
         parse_not_expression
+      elsif look_ahead =~ TRUE_K
+        parse_true_expression
       elsif look_ahead =~ PARENTHESE_OPEN
         # Problem: Parentheses could also stand for arithmetic expressions.
         # So one has to handle a nondeterministic choice here.
@@ -164,6 +184,13 @@ module Parser
       else
         parse_comparation
       end
+    end
+
+    # Parses a true value.
+    #
+    def parse_true_expression
+      parse_true
+      AST::EqualTo.new(IntegerConstant.new(1), IntegerConstant.new(1))
     end
 
     # Parses a binary boolean expression.

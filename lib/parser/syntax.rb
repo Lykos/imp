@@ -49,8 +49,9 @@ module Parser
     VAR = /var/
     IN_K = /in/
     FOR_K = /for/
+    TO = /to/
     KEYWORD = Regexp.union( IF_K, THEN_K, ELSE_K, END_K, WHILE_K, DO_K, REPEAT,
-      UNTIL_K, VAR, IN_K, FOR_K )
+      UNTIL_K, VAR, IN_K, FOR_K, TO )
   
     SPECIAL_WORD = Regexp.union( KEYWORD, SKIP )
   

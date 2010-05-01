@@ -131,13 +131,14 @@ module Parser
         parse_do
         body = parse_statement
         parse_end
-        exit_variable = Variable.new("y")
-        step = AST::Assignment.new(variable, variable + IntegerConstant.new(1))
-        loop_body = CompositeStatement.new([body, step])
-        loop_condition = LessOrEqual.new(variable, exit_variable)
+        initial_assignment = AST::Assignment.new(variable, initial)
+        exit_variable = AST::Variable.new("y")
+        step = AST::Assignment.new(variable, variable + AST::IntegerConstant.new(1))
+        loop_body = AST::CompositeStatement.new([body, step])
+        loop_condition = AST::LessOrEqualThan.new(variable, exit_variable)
         loop = AST::WhileLoop.new(loop_condition, loop_body)
-        local_scope = AST::LocalVariableDeclaration.new(exit_variable, exit)
-        AST::CompositeStatement.new([initial, local_scope])
+        local_scope = AST::LocalVariableDeclaration.new(exit_variable, exit, loop)
+        AST::CompositeStatement.new([initial_assignment, local_scope])
       elsif look_ahead =~ SKIP
         parse_skip
         AST::Skip.new
@@ -190,7 +191,7 @@ module Parser
     #
     def parse_true_expression
       parse_true
-      AST::EqualTo.new(IntegerConstant.new(1), IntegerConstant.new(1))
+      AST::EqualTo.new(AST::IntegerConstant.new(1), AST::IntegerConstant.new(1))
     end
 
     # Parses a binary boolean expression.

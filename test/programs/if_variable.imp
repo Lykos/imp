@@ -2,5 +2,5 @@ if := 3;
 if if <= 2 then
   if := 2
 else
-  if := if + 3
+  if := (if + 3)
 end

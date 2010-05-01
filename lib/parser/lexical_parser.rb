@@ -15,8 +15,9 @@ module Parser
       line_no = 0
       program.each do |line|
         line_no += 1
-        @tokens += line.scan(TOKEN)
-        @line_numbers.push(line_no)
+        new_tokens = line.scan(TOKEN)
+        @tokens += new_tokens
+        @line_numbers += [line_no] * new_tokens.length
       end
       @index = 0
     end
@@ -33,7 +34,7 @@ module Parser
     # Returns the current line number
     #
     def line_number
-      @line_number[@index]
+      @line_numbers[@index]
     end
   
     # Returns the next token without advancing to that token.

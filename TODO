@@ -10,3 +10,4 @@
 - Maybe still refactor the AST for the visitor pattern...
 - Write tests for the compilers.
 - Refactor and improve the scripts.
+- Side condition for "for".

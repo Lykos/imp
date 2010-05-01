@@ -2,26 +2,13 @@ require 'parser/syntax'
 
 module Parser
   # Provides utilities to parse terminal expressions. Is based on next_token and look_ahead.
+  # TODO: Has become too small and too senseless to exist after the last refactoring session.
+  # Maybe delete this class.
   #
   module TerminalHelper
   
     include Syntax
-    
-    # Parses an indentifier.
-    #
-    def parse_identifier
-      raise "Reserved word #{look_ahead} used as a variable." if look_ahead =~ SPECIAL_WORD
-      raise "Identifier expected. Got '#{look_ahead}'." unless look_ahead =~ IDENTIFIER
-      next_token
-    end
-  
-    # Parses a numeral.
-    #
-    def parse_numeral
-      raise "Numeral expected. Got '#{look_ahead}'." unless look_ahead =~ NUMERAL
-      next_token.to_i
-    end
-  
+      
     # Parses any kind of terminal (or combination).
     #
     def method_missing(name, *args)

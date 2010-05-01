@@ -55,16 +55,10 @@ module Parser
       look_ahead =~ SEMICOLON
     end
   
-    # Decides if the arithmetic expression continues.
+    # Is the next token a special word? (keyword or skip etc)
     #
-    def arithmetic_expression_continues?
-      look_ahead =~ ARITHMETIC_OPERATOR
-    end
-  
-    # Decides if the statement continues.
-    #
-    def boolean_expression_continues?
-      look_ahead =~ BOOLEAN_OPERATOR
+    def special_word?
+      look_ahead =~ SPECIAL_WORD and not look_ahead(2) =~ ASSIGNMENT
     end
   
     # Parses a composite statement that can contain multiple instructions.
@@ -93,10 +87,10 @@ module Parser
        AST:: Skip.new
       end
     end
-  
-    # Parses a single instruction.
+
+    # Parses a special construct.
     #
-    def parse_simple_statement
+    def parse_special
       t = look_ahead
       if t =~ IF_K
         parse_if
@@ -131,6 +125,17 @@ module Parser
         body = parse_statement
         parse_end
         AST::LocalVariableDeclaration.new(variable, value, body)
+      else
+        raise "#{t} is no special word."
+      end
+    end
+
+    # Parses a single instruction.
+    #
+    def parse_simple_statement
+      t = look_ahead
+      if special_word?
+        parse_special_word
       elsif t =~ IDENTIFIER
         variable = AST::Variable.new(parse_identifier)
         parse_assignment
@@ -148,34 +153,51 @@ module Parser
     def parse_boolean_expression
       t = look_ahead
       if t =~ NOT_K
-        parse_not
-        expression = parse_boolean_expression
-        AST::Not.new(expression)
+        parse_not_expression
       elsif t =~ PARENTHESE_OPEN
         # Problem: Parentheses could also stand for arithmetic expressions.
         # So one has to handle a nondeterministic choice here.
         # This is an ugly hack and terribly slow.
         position = save_position
         begin
-          parse_parenthese_open
-          left_expression = parse_boolean_expression
-          operator = parse_binary_boolean_operator
-          right_expression = parse_boolean_expression
-          parse_parenthese_closed
-          if operator =~ OR_K
-            AST::Or.new(left_expression, right_expression)
-          elsif operator =~ AND_K
-            AST::And.new(left_expression, right_expression)
-          else
-            raise "Invalid boolean operator #{operator}."
-          end
-          # TODO: Introduce own exceptions.
-        rescue RuntimeError
+          parse_binary_boolean_expression
+        rescue RuntimeError # TODO: Introduce own exceptions.
           restore_position(position)
           parse_comparation
         end
       else
         parse_comparation
+      end
+    end
+
+    # Parses a binary boolean expression.
+    #
+    def parse_binary_boolean_expression
+      parse_parenthese_open
+      left_expression = parse_boolean_expression
+      operator = parse_binary_boolean_operator
+      right_expression = parse_boolean_expression
+      parse_parenthese_closed
+      pick_boolean_operator_class(operator).new(left_expression, right_expression)
+    end
+
+    # Parses a negated expression.
+    #
+    def parse_not_expression
+      parse_not
+      expression = parse_boolean_expression
+      AST::Not.new(expression)
+    end
+
+    # Picks the right class for a given boolean operator.
+    #
+    def pick_boolean_operator_class(operator)
+      if operator =~ OR_K
+        AST::Or
+      elsif operator =~ AND_K
+        AST::And
+      else
+        raise "Invalid boolean operator #{operator}."
       end
     end
   
@@ -212,25 +234,37 @@ module Parser
     def parse_arithmetic_expression
       t = look_ahead
       if t =~ PARENTHESE_OPEN
+        parse_binary_arithmetic_expression
+      else
+        parse_simple_arithmetic_expression
+      end
+    end
+
+    # Parses a binary arithmetic expression.
+    #
+    def parse_binary_arithmetic_expression
         parse_parenthese_open
         left_expression = parse_arithmetic_expression
         operator = parse_binary_arithmetic_operator
         right_expression = parse_arithmetic_expression
         parse_parenthese_closed
-        if operator =~ PLUS
-          AST::Plus.new(left_expression, right_expression)
-        elsif operator =~ MINUS
-          AST::Minus.new(left_expression, right_expression)
-        elsif operator =~ TIMES
-          AST::Times.new(left_expression, right_expression)
-        else
-          raise "Invalid arithmetic operator. #{operator}"
-        end
+        pick_arithmetic_operator_class.new(left_expression, right_expression)
+    end
+
+    # Picks the right class for an arithmetic operator.
+    #
+    def pick_arithmetic_operator_class(operator)
+      if operator =~ PLUS
+        AST::Plus.new(left_expression, right_expression)
+      elsif operator =~ MINUS
+        AST::Minus.new(left_expression, right_expression)
+      elsif operator =~ TIMES
+        AST::Times.new(left_expression, right_expression)
       else
-        parse_simple_arithmetic_expression
+        raise "Invalid arithmetic operator. #{operator}"
       end
     end
-  
+
     # Parses an arithmetic terminal, that is a variable or an integer constant.
     #
     def parse_simple_arithmetic_expression
@@ -238,7 +272,7 @@ module Parser
       if t =~ IDENTIFIER
         AST::Variable.new(parse_identifier)
       elsif t =~ NUMERAL
-        AST::IntegerConstant.new(parse_numeral)
+        AST::IntegerConstant.new(parse_numeral.to_i)
       end
     end
   end

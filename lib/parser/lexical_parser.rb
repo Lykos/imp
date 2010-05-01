@@ -10,8 +10,14 @@ module Parser
     # Divides the given string into an array of tokens.
     #
     def initialize(program)
-      @tokens = program.scan(TOKEN)
-      @line_number = [0] * @tokens.length
+      @tokens = []
+      @line_numbers = []
+      line_no = 0
+      program.each do |line|
+        line_no += 1
+        @tokens += line.scan(TOKEN)
+        @line_numbers.push(line_no)
+      end
       @index = 0
     end
   
@@ -32,8 +38,8 @@ module Parser
   
     # Returns the next token without advancing to that token.
     #
-    def look_ahead
-      @tokens[@index]
+    def look_ahead(number=1)
+      @tokens[@index + number - 1]
     end
   
     # Returns the current position.

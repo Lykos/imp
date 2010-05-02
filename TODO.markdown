@@ -1,9 +1,10 @@
-- Introduce own exception classes.
-- Support line numbers for better error messages.
+TODO
+====
+- Rakefile
 - Better nondeterminism of the parser.
 - procedures, abort, par, nondeterministic choice.
 - Useful error messages for command line arguments as initial values of variables.
-- Debugger.
+- IMP Debugger.
 - Refactor the whole parser.
 - More tests for the method missing trick.
 - Maybe still refactor the AST for the visitor pattern...

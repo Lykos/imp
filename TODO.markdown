@@ -11,3 +11,5 @@ TODO
 - Write tests for the compilers.
 - Refactor and improve the scripts.
 - Raise error if invalid characters are there.
+- Better README
+- Don't show variables that only appear in local scope

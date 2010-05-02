@@ -121,7 +121,6 @@ module Parser
         parse_end
         AST::LocalVariableDeclaration.new(variable, value, body)
       elsif look_ahead =~ FOR_K
-        # TODO: Check side conditions!
         parse_for
         variable = AST::Variable.new(parse_identifier)
         parse_assignment
@@ -131,6 +130,12 @@ module Parser
         parse_do
         body = parse_statement
         parse_end
+        if body.collect_variables.include?("y")
+          raise(SideConditionError, "Line #{line_number}: The body of a for loop may not contain 'y' as a free variable.")
+        end
+        if exit.collect_variables.include?(variable.name)
+          raise(SideConditionError, "Line #{line_number}: The end value of the for loop may not contains '#{variable.name}', the loop variable as a free variable.")
+        end
         initial_assignment = AST::Assignment.new(variable, initial)
         exit_variable = AST::Variable.new("y")
         step = AST::Assignment.new(variable, variable + AST::IntegerConstant.new(1))
@@ -143,7 +148,7 @@ module Parser
         parse_skip
         AST::Skip.new
       else
-        raise(ParserBrokenError, "#{t} is no special word.")
+        raise(ParserBrokenError, "Line #{line_number}: #{t} is no special word.")
       end
     end
 
@@ -158,9 +163,9 @@ module Parser
         value = parse_arithmetic_expression
         AST::Assignment.new(variable, value)
       elsif look_ahead == nil
-        raise(IMPParseError, "Another statement expected.")
+        raise(IMPSyntaxError, "Line #{line_number}: Another statement expected.")
       else
-        raise(IMPParseError, "Syntax error, #{t} makes no sense at this point.")
+        raise(IMPSyntaxError, "Line #{line_number}: Syntax error, #{t} makes no sense at this point.")
       end
     end
   
@@ -175,10 +180,11 @@ module Parser
         # Problem: Parentheses could also stand for arithmetic expressions.
         # So one has to handle a nondeterministic choice here.
         # This is an ugly hack and terribly slow.
+        # TODO: Find a better solution.
         position = save_position
         begin
           parse_binary_boolean_expression
-        rescue RuntimeError # TODO: Introduce own exceptions.
+        rescue IMPSyntaxError
           restore_position(position)
           parse_comparation
         end
@@ -221,7 +227,7 @@ module Parser
       elsif operator =~ AND_K
         AST::And
       else
-        raise(ParserBrokenError, "Invalid boolean operator #{operator}.")
+        raise(ParserBrokenError, "Line #{line_number}: Invalid boolean operator #{operator}.")
       end
     end
   
@@ -249,7 +255,7 @@ module Parser
       elsif comparator =~ UNEQUAL_TO
         AST::UnequalTo
       else
-        raise(ParserBrokenError, "Invalid binary comparation operator #{comparator}")
+        raise(ParserBrokenError, "Line #{line_number}: Invalid binary comparation operator #{comparator}")
       end
     end
   
@@ -284,7 +290,7 @@ module Parser
       elsif operator =~ TIMES
         AST::Times
       else
-        raise(ParserBrokenError, "Invalid arithmetic operator. #{operator}")
+        raise(ParserBrokenError, "Line #{line_number}: Invalid arithmetic operator. #{operator}")
       end
     end
 

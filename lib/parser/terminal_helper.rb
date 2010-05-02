@@ -20,7 +20,7 @@ module Parser
       constant += "_K" unless Syntax.const_defined?(constant)
       super(name) unless Syntax.const_defined?(constant)
       unless look_ahead =~ Syntax.const_get(constant)
-        raise(IMPParseError, "Line #{line_number}: '#{token}' expected. Got '#{look_ahead}'.")
+        raise(IMPSyntaxError, "Line #{line_number}: '#{token}' expected. Got '#{look_ahead}'.")
       end
       next_token
     end

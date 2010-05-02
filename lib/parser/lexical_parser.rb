@@ -14,6 +14,7 @@ module Parser
       @line_numbers = []
       line_no = 0
       program.each do |line|
+        # TODO: Exception in case of invalid characters.
         line_no += 1
         new_tokens = line.scan(TOKEN)
         @tokens += new_tokens

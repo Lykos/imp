@@ -1,7 +1,6 @@
 - Introduce own exception classes.
 - Support line numbers for better error messages.
-- Better nondeterminism for things like variables with the name of reserved
-  words.
+- Better nondeterminism of the parser.
 - procedures, abort, par, nondeterministic choice.
 - Useful error messages for command line arguments as initial values of variables.
 - Debugger.
@@ -10,4 +9,4 @@
 - Maybe still refactor the AST for the visitor pattern...
 - Write tests for the compilers.
 - Refactor and improve the scripts.
-- Side condition for "for".
+- Raise error if invalid characters are there.

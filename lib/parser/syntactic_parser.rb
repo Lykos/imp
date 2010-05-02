@@ -29,6 +29,10 @@ require 'ast/times'
 require 'ast/variable'
 require 'ast/integer_constant'
 
+require 'parser/imp_syntax_error'
+require 'parser/side_condition_error'
+require 'parser/parser_broken_error'
+
 module Parser
   # Represents a syntactic parser that is able to produce an abstract syntax tree of a given string. 
   #

@@ -1,5 +1,5 @@
 require 'parser/syntax'
-require 'parser/imp_parse_error'
+require 'parser/imp_syntax_error'
 
 module Parser
   # Provides utilities to parse terminal expressions. Is based on next_token and look_ahead.

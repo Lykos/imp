@@ -1,4 +1,5 @@
 require 'parser/syntax'
+require 'parser/imp_parse_error'
 
 module Parser
   # Provides utilities to parse terminal expressions. Is based on next_token and look_ahead.
@@ -18,7 +19,9 @@ module Parser
       constant = token.upcase
       constant += "_K" unless Syntax.const_defined?(constant)
       super(name) unless Syntax.const_defined?(constant)
-      raise "Line #{line_number}: '#{token}' expected. Got '#{look_ahead}'." unless look_ahead =~ Syntax.const_get(constant)
+      unless look_ahead =~ Syntax.const_get(constant)
+        raise(IMPParseError, "Line #{line_number}: '#{token}' expected. Got '#{look_ahead}'.")
+      end
       next_token
     end
   end

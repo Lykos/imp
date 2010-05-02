@@ -143,7 +143,7 @@ module Parser
         parse_skip
         AST::Skip.new
       else
-        raise "#{t} is no special word."
+        raise(ParserBrokenError, "#{t} is no special word.")
       end
     end
 
@@ -158,9 +158,9 @@ module Parser
         value = parse_arithmetic_expression
         AST::Assignment.new(variable, value)
       elsif look_ahead == nil
-        raise "Another statement expected."
+        raise(IMPParseError, "Another statement expected.")
       else
-        raise "Syntax error, #{t} makes no sense at this point."
+        raise(IMPParseError, "Syntax error, #{t} makes no sense at this point.")
       end
     end
   
@@ -221,7 +221,7 @@ module Parser
       elsif operator =~ AND_K
         AST::And
       else
-        raise "Invalid boolean operator #{operator}."
+        raise(ParserBrokenError, "Invalid boolean operator #{operator}.")
       end
     end
   
@@ -249,7 +249,7 @@ module Parser
       elsif comparator =~ UNEQUAL_TO
         AST::UnequalTo
       else
-        raise "Invalid binary comparation operator #{comparator}"
+        raise(ParserBrokenError, "Invalid binary comparation operator #{comparator}")
       end
     end
   
@@ -284,7 +284,7 @@ module Parser
       elsif operator =~ TIMES
         AST::Times
       else
-        raise "Invalid arithmetic operator. #{operator}"
+        raise(ParserBrokenError, "Invalid arithmetic operator. #{operator}")
       end
     end
 

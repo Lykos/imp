@@ -38,13 +38,13 @@ module AST
     # Compiles the local variable declaration to C code.
     #
     def compile_to_c
-      raise "Compilation of local variable declarations to C code is not supported yet."
+      raise NotImplementedError, "Compilation of local variable declarations to C code is not supported yet."
     end
 
     # Compiles the local variable declaration to Ruby code.
     #
     def compile_to_ruby
-      raise "Compilation of local variable declarations to Ruby code is not supported yet."
+      raise NotImplementedError, "Compilation of local variable declarations to Ruby code is not supported yet."
     end
 
     # Collects the names of all variables in the body except for the newly
